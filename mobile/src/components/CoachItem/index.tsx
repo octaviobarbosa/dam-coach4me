@@ -67,6 +67,7 @@ const CoachItem: React.FC<CoachItemProps> = ({ coach, favorited }) => {
 
     await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray));
   }
+
   const weekDay = (day: number): string => {
     switch (day) {
       case 0:
@@ -123,9 +124,10 @@ const CoachItem: React.FC<CoachItemProps> = ({ coach, favorited }) => {
         <Text style={styles.price}>
           Disponibilidade {' '}
         </Text>
-        {coach.schedules.map(schedule => {
+        
+        {coach.schedules.map((schedule, index) => {
           return (
-            <>
+            <View key={index}>
               <Text style={styles.priceValue}>
                 {weekDay(schedule.week_day)}
                 <Text style={styles.price}>{' de '}</Text>
@@ -133,7 +135,7 @@ const CoachItem: React.FC<CoachItemProps> = ({ coach, favorited }) => {
                 {''} <Text style={styles.price}>às</Text> {''}
                 {convertMinutesToHours(schedule.to)}
                 </Text>              
-            </>
+            </ View>
           )
         })}
 

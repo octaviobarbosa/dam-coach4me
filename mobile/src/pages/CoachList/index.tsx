@@ -3,6 +3,7 @@ import { ScrollView, View, Text, TextInput } from 'react-native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNPickerSelect from "react-native-picker-select";
 
 import api from '../../services/api';
 
@@ -61,6 +62,27 @@ function CoachList() {
     
   }
 
+  const weekDay = (day: string): string | undefined => {
+    switch (day) {
+      case '0':
+        return 'Domingo'
+      case '1':
+        return 'Segunda-feira'
+      case '2':
+        return 'Terça-feira'
+      case '3':
+        return 'Quarta-feira'
+      case '4':
+        return 'Quinta-feira'
+      case '5':
+        return 'Sexta-feira'
+      case '6':
+        return 'Sábado'
+      default:
+        return undefined
+    }
+  }
+
   return (
     <View style={styles.container}>
       <PageHeader 
@@ -74,24 +96,65 @@ function CoachList() {
         { isFiltersVisible && (
           <View style={styles.searchForm}>
             <Text style={styles.label}>Matéria</Text>
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               value={subject}
               onChangeText={text => setSubject(text)}
               placeholder="Qual a matéria?"
               placeholderTextColor="#c1bccc"
-            />
+            /> */}
+
+            <RNPickerSelect 
+              onValueChange={(value) => setSubject(value)}
+              items= {
+                [
+                  { value: 'Artes', label: 'Artes' },
+                  { value: 'Biologia', label: 'Biologia' },
+                  { value: 'Ciências', label: 'Ciências' },
+                  { value: 'Educação física', label: 'Educação física' },
+                  { value: 'Física', label: 'Física' },
+                  { value: 'Geografia', label: 'Geografia' },
+                  { value: 'História', label: 'História' },
+                  { value: 'Matemática', label: 'Matemática' },
+                  { value: 'Português', label: 'Português' },
+                  { value: 'Química', label: 'Química' },
+                ] 
+              }
+            >
+              <TextInput
+                style={styles.input}
+                value={subject}
+                onChangeText={text => setSubject(text)}
+                placeholder="Qual a matéria?"
+                placeholderTextColor="#c1bccc"
+              />
+            </RNPickerSelect>
 
             <View style={styles.inputGroup}>
               <View style={styles.inputBlock}>
                 <Text style={styles.label}>Dia da semana</Text>
-                <TextInput
+                <RNPickerSelect 
+                  onValueChange={(value) => setWeekDay(value)}
+                  items= {
+                    [
+                      { value: '0', label: 'Domingo' },
+                      { value: '1', label: 'Segunda-feira' },
+                      { value: '2', label: 'Terça-feira' },
+                      { value: '3', label: 'Quarta-feira' },
+                      { value: '4', label: 'Quinta-feira' },
+                      { value: '5', label: 'Sexta-feira' },
+                      { value: '6', label: 'Sábado' },
+                    ] 
+                  }
+                >
+                  <TextInput
                   style={styles.input}
-                  value={week_day}
+                  value={weekDay(week_day)}
                   onChangeText={text => setWeekDay(text)}
                   placeholder="Qual o dia?"
                   placeholderTextColor="#c1bccc"
                 />
+                </RNPickerSelect>
               </View>
 
               <View style={styles.inputBlock}>
